@@ -7,7 +7,7 @@ const ProductSchema = new Schema({
         type: Number,
         required: true,
         unique: true,
-        default: Math.floor(Math.random() * 10000)
+        default: Math.floor(Math.random() * 100000)
     },
     name: {
         type: String,

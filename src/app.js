@@ -8,7 +8,7 @@ require('dotenv').config()
 
 // routes
 const usersRouter = require('./routes/users')
-// const productsRouter = require('./routes/products')
+const productsRouter = require('./routes/products')
 const authRouter = require('./routes/auth')
 // const cartRouter = require('./routes/cart')
 
@@ -42,7 +42,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/users', usersRouter);
-// app.use('/products', productsRouter);
+app.use('/products', productsRouter);
 app.use('/auth', authRouter);
 // app.use('/cart', cartRouter);
 
