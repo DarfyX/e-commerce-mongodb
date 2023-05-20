@@ -1,7 +1,7 @@
 const passport = require("passport");
 const { Strategy } = require("passport-local");
 const { comparePassword } = require("../utils/helpers");
-const { getUserById } = require("../utils/controllers");
+const { getUserByUsername } = require("../utils/controllers");
 const User = require("../database/schemas/UserSchema");
 
 passport.serializeUser((user, done) => {
@@ -9,11 +9,11 @@ passport.serializeUser((user, done) => {
   done(null, user);
 });
 
-passport.deserializeUser((userId, done) => {
+passport.deserializeUser((user, done) => {
   console.log("Deserializing user...");
 
   try {
-    const userData = getUserById;
+    const userData = getUserByUsername;
     if (!userData) throw new Error("User not found!");
     done(null, userData);
   } catch (err) {

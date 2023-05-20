@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 
 
-const ProductSchema = new Schema({
-    productId: {
+const productSchema = new Schema({
+    refCode: {
         type: Number,
         required: true,
         unique: true,
-        default: Math.floor(Math.random() * 100000)
+        default: Math.floor(Math.random() * 10000)
     },
     name: {
         type: String,
@@ -23,5 +23,5 @@ const ProductSchema = new Schema({
     }
 });
 
-const Product = mongoose.model('products', ProductSchema);
+const Product = mongoose.model('Product', productSchema);
 module.exports = Product;

@@ -2,14 +2,14 @@ const express = require("express");
 const {
   getProducts,
   addNewProduct,
-  getProductById,
-  updatePriceByProductId,
-  deleteProductById,
+  getProductByRefCode,
+  updatePriceByProductRefCode,
+  deleteProductByRefCode,
 } = require("../utils/controllers");
 const productsRouter = express.Router();
 
 productsRouter.get("/", getProducts);
-productsRouter.get("/:productId", getProductById);
+productsRouter.get("/:refCode", getProductByRefCode);
 
 productsRouter.use((req, res, next) => {
   console.log("Products auth check middleware");
@@ -19,7 +19,7 @@ productsRouter.use((req, res, next) => {
 });
 
 productsRouter.post("/new-product", addNewProduct);
-productsRouter.put("/update-price", updatePriceByProductId);
-productsRouter.delete("/delete-product/:productId", deleteProductById);
+productsRouter.put("/update-price", updatePriceByProductRefCode);
+productsRouter.delete("/delete-product/:refCode", deleteProductByRefCode);
 
 module.exports = productsRouter;

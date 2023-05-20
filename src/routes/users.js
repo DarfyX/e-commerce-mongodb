@@ -1,6 +1,6 @@
 const express = require('express');
 const usersRouter = express.Router();
-const { getUsers, getUserById, changeUserPassword } = require('../utils/controllers');
+const { getUsers, changeUserPassword, getUserByUsername, deleteUser } = require('../utils/controllers');
 
 usersRouter.use((req, res, next) => {
     console.log('Users auth check middleware');
@@ -10,8 +10,9 @@ usersRouter.use((req, res, next) => {
 });
 
 usersRouter.get('/', getUsers);
-usersRouter.get('/:userId', getUserById);
+usersRouter.get('/:username', getUserByUsername);
 usersRouter.put('/change-password', changeUserPassword);
+usersRouter.delete('/delete-user/:username', deleteUser);
 
 
 

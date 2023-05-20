@@ -11,10 +11,10 @@ const getUsers = async (req, res) => {
   res.status(200).json(usersData);
 };
 // // get by userId
-const getUserById = async (req, res) => {
-  const { userId } = req.params;
+const getUserByUsername = async (req, res) => {
+  const { username } = req.params;
 
-  const userData = await User.findOne({ userId })
+  const userData = await User.findOne({ username })
     .select("-__v -password -_id")
     .exec();
 
@@ -47,12 +47,12 @@ const changeUserPassword = async (req, res) => {
 
 // register new user
 const registerUser = async (req, res) => {
-  const { email } = req.body;
+  const { username, email } = req.body;
   const userData = await User.findOne({ email });
 
   if (!userData) {
     const password = hashPassword(req.body.password);
-    await User.create({ email, password });
+    await User.create({ username, email, password });
     res
       .status(201)
       .send({ code: "00", success: true, message: "User created!" });
@@ -61,6 +61,14 @@ const registerUser = async (req, res) => {
       .status(200)
       .send({ code: "01", success: true, message: "User already exists!" });
   }
+};
+
+// delete user
+const deleteUser = async (req, res) => {
+  const { username } = req.params;
+
+  await User.deleteOne({ username });
+  res.status(200).send({ code: "04", success: true, message: "User deleted!" });
 };
 
 // get all products
@@ -77,11 +85,11 @@ const getProducts = async (req, res) => {
   } else res.status(200).send(productList);
 };
 
-// get product by id
-const getProductById = async (req, res) => {
-  const { productId } = req.params;
+// get product by refCode
+const getProductByRefCode = async (req, res) => {
+  const { refCode } = req.params;
 
-  const productData = await Product.findOne({ productId })
+  const productData = await Product.findOne({ refCode })
     .select("-__v -_id")
     .exec();
 
@@ -104,16 +112,16 @@ const addNewProduct = async (req, res) => {
 };
 
 // update product price
-const updatePriceByProductId = async (req, res) => {
-  const { productId } = req.body;
-  const productData = await Product.findOne({ productId });
+const updatePriceByProductRefCode = async (req, res) => {
+  const { refCode } = req.body;
+  const productData = await Product.findOne({ refCode });
   if (!productData) {
     res
       .status(200)
       .send({ code: "03", success: true, message: "Product not found!" });
   } else {
     const newPrice = req.body.price;
-    await Product.updateOne({ productId }, { $set: { price: newPrice } });
+    await Product.updateOne({ refCode }, { $set: { price: newPrice } });
     res
       .status(201)
       .send({ code: "02", success: true, message: "Price updated!" });
@@ -121,21 +129,22 @@ const updatePriceByProductId = async (req, res) => {
 };
 
 // delete product
-const deleteProductById = async (req, res) => {
-  const { productId } = req.params;
+const deleteProductByRefCode = async (req, res) => {
+  const { refCode } = req.params;
 
-  await Product.deleteOne({ productId });
+  await Product.deleteOne({ refCode });
   res.status(200).send({ code: "04", success: true, message: "Product deleted!" });
 };
 
 module.exports = {
   getUsers,
-  getUserById,
+  getUserByUsername,
   changeUserPassword,
   registerUser,
+  deleteUser,
   getProducts,
   addNewProduct,
-  getProductById,
-  updatePriceByProductId,
-  deleteProductById,
+  getProductByRefCode,
+  updatePriceByProductRefCode,
+  deleteProductByRefCode,
 };
