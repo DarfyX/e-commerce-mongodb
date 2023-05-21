@@ -1,11 +1,12 @@
 const passport = require("passport");
 const { Strategy } = require("passport-local");
 const { comparePassword } = require("../utils/helpers");
-const { getUserByUsername } = require("../utils/controllers");
-const User = require("../database/schemas/UserSchema");
+
+const User = require("../database/models/UserSchema");
+const { getUserByUsername } = require("../controllers/user");
 
 passport.serializeUser((user, done) => {
-  console.log("Serializing user...");
+  console.log(`Serializing user...`);
   done(null, user);
 });
 

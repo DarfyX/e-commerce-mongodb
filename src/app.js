@@ -2,12 +2,13 @@ const express = require("express");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
+const MongoStore = require('connect-mongo');
 require("./strategies/local");
-require('./database');
+require("./database");
 
 // routes
-const usersRouter = require("./routes/users");
-const productsRouter = require("./routes/products");
+const usersRouter = require("./routes/user");
+const productsRouter = require("./routes/product");
 const authRouter = require("./routes/auth");
 // const cartRouter = require('./routes/cart')
 
@@ -24,6 +25,9 @@ app.use(
     secret: "hsg8f3487r",
     saveUninitialized: false,
     resave: false,
+    store: MongoStore.create({
+      mongoUrl: 'mongodb://127.0.0.1/ecommerce_db'
+    })
   })
 );
 

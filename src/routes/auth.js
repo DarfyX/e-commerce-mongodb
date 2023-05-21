@@ -1,9 +1,7 @@
 const express = require('express');
 const authRouter = express.Router();
 const passport = require('passport');
-const { registerUser } = require('../utils/controllers');
-
-
+const { registerUser } = require('../controllers/user');
 
 authRouter.post('/login', passport.authenticate('local'), (req, res) => {
     console.log('Logged In');
